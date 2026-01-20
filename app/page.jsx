@@ -6,13 +6,15 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
+import BackgroundWrapper from "../components/BackgroundWrapper";
 
 export default function Home() {
   return (
     <>
-      <section id="home">
-        <Hero />
-      </section>
+      
+        <section id="home">
+          <Hero />
+        </section>
 
       <section id="about">
         <About />
