@@ -1,7 +1,12 @@
 // components/Hero.jsx
 "use client";
 import { motion } from "framer-motion";
-import { personalInfo, techStack, socialLinks, typingTexts } from "@/lib/constants";
+import {
+  personalInfo,
+  techStack,
+  socialLinks,
+  typingTexts,
+} from "@/lib/constants";
 import { useState, useEffect } from "react";
 import HighlightText from "./HighlightText";
 
@@ -20,7 +25,7 @@ export default function Hero() {
         style={{ animationDelay: "2s" }}
       ></div>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10 mt-10">
+      <div className="max-w-7xl mx-auto w-full relative z-10 mt-50">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
           <motion.div
@@ -185,8 +190,12 @@ export default function Hero() {
                   <div className="relative">
                     <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full opacity-20 blur-lg"></div>
                     <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 border-4 border-gray-700 flex items-center justify-center overflow-hidden">
-                      <div >
-                        <img src="public/image/1.jpeg" alt="Avatar" className="w-full h-full object-cover" />
+                      <div>
+                        <img
+                          src="public/image/1.jpeg"
+                          alt="Avatar"
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       {/* Animated Rings */}
                       <div
