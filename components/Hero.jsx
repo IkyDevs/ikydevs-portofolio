@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <div className="absolute inset-0 bg-linear-to-br from-gray-900 via-black to-gray-900">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       </div>
 
@@ -20,7 +20,7 @@ export default function Hero() {
         style={{ animationDelay: "2s" }}
       ></div>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10">
+      <div className="max-w-7xl mx-auto w-full relative z-10 mt-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
           <motion.div
