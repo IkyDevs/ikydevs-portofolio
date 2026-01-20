@@ -1,235 +1,310 @@
 // components/Hero.jsx
 "use client";
 import { motion } from "framer-motion";
-import { personalInfo, techStack, socialLinks } from "@/lib/constants";
+import { personalInfo, techStack, socialLinks, typingTexts } from "@/lib/constants";
 import { useState, useEffect } from "react";
+import HighlightText from "./HighlightText";
 
 export default function Hero() {
-  const [textIndex, setTextIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const texts = [
-    "Frontend Developer",
-    "Next.js Enthusiast",
-    "React Enthusiast",
-    "Tailwind Enthusiast",
-    "Problem Solver"
-  ];
-
-  useEffect(() => {
-    const typingSpeed = isDeleting ? 50 : 100;
-    const pauseTime = 2000;
-
-    const timeout = setTimeout(() => {
-      const current = texts[textIndex];
-
-      if (!isDeleting) {
-        // Typing
-        if (currentText.length < current.length) {
-          setCurrentText(current.substring(0, currentText.length + 1));
-        } else {
-          // Pause at full text
-          setTimeout(() => setIsDeleting(true), pauseTime);
-        }
-      } else {
-        // Deleting
-        if (currentText.length > 0) {
-          setCurrentText(current.substring(0, currentText.length - 1));
-        } else {
-          // Move to next text
-          setIsDeleting(false);
-          setTextIndex((textIndex + 1) % texts.length);
-        }
-      }
-    }, typingSpeed);
-
-    return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, textIndex]);
-
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       </div>
 
       {/* Floating Elements */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/4 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
+      <div
+        className="absolute bottom-1/4 right-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-float"
+        style={{ animationDelay: "2s" }}
+      ></div>
 
-      <div className="max-w-7xl mx-auto text-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-
-
-          {/* Greeting */}
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Column - Content */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mb-4"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            <span className="text-2xl text-gray-400">Hi there! 👋 I'm</span>
+            {/* Greeting Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            ></motion.div>
+
+            {/* Main Title */}
+            <div className="space-y-4">
+              <motion.h1
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold"
+              >
+                <span className="block text-gray-300">Hi, I'm</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 animate-gradient">
+                  {personalInfo.name}
+                </span>
+              </motion.h1>
+
+              {/* Animated Typing Text */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="flex items-center space-x-2"
+              >
+                <span className="text-xl md:text-2xl text-gray-400">I'm a</span>
+                <div className="relative">
+                  <div className="px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700">
+                    <span className="text-xl md:text-2xl font-mono font-bold">
+                      <HighlightText texts={typingTexts} />
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-lg text-gray-300 leading-relaxed max-w-xl"
+            >
+              {personalInfo.bio}
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 pt-4"
+            >
+              <motion.a
+                href="#projects"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg shadow-blue-500/25"
+              >
+                <span>View Projects</span>
+                <svg
+                  className="w-5 h-5 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </motion.a>
+
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center justify-center px-8 py-3 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 rounded-lg font-semibold text-lg transition-all duration-300"
+              >
+                <span>Contact Me</span>
+                <svg
+                  className="w-5 h-5 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+              </motion.a>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="pt-6"
+            >
+              <p className="text-gray-500 text-sm mb-4">Connect with me</p>
+              <div className="flex space-x-4">
+                {socialLinks.map((social, index) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.8 + index * 0.1 }}
+                      whileHover={{ scale: 1.1, y: -3 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`p-3 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700 ${social.color} transition-all duration-300 group`}
+                      title={social.name}
+                    >
+                      <Icon
+                        size={20}
+                        className="text-gray-300 group-hover:text-white transition-colors"
+                      />
+                    </motion.a>
+                  );
+                })}
+              </div>
+            </motion.div>
           </motion.div>
 
-          {/* Name with Gradient */}
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
-          >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 animate-gradient">
-              {personalInfo.name}
-            </span>
-          </motion.h1>
-
-          {/* Animated Typing Text */}
+          {/* Right Column - Visual Elements */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mb-8"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative"
           >
-            <div className="inline-flex items-center">
-              <div className="relative">
-                {/* Background Blur */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-xl rounded-full"></div>
+            {/* Main Visual Container */}
+            <div className="relative mx-auto max-w-md">
+              {/* Outer Glow Ring */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 rounded-3xl blur-2xl animate-pulse"></div>
 
-                {/* Typing Container */}
-                <div className="relative px-6 py-3 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700">
-                  <span className="text-xl md:text-2xl font-mono">
-                    <span className="text-gray-300">I'm a </span>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 font-bold">
-                      {currentText}
+              {/* Profile Card */}
+              <div className="relative bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-8 shadow-2xl">
+                {/* Avatar */}
+                <div className="flex justify-center mb-8">
+                  <div className="relative">
+                    <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full opacity-20 blur-lg"></div>
+                    <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 border-4 border-gray-700 flex items-center justify-center overflow-hidden">
+                      <div >
+                        <img src="public/image/1.jpeg" alt="Avatar" className="w-full h-full object-cover" />
+                      </div>
+                      {/* Animated Rings */}
+                      <div
+                        className="absolute inset-0 border-2 border-blue-500/30 rounded-full animate-spin-slow"
+                        style={{ animationDuration: "10s" }}
+                      ></div>
+                      <div
+                        className="absolute inset-4 border-2 border-cyan-500/30 rounded-full animate-spin"
+                        style={{
+                          animationDuration: "8s",
+                          animationDirection: "reverse",
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Current Focus */}
+                <div className="text-center mb-8">
+                  <h3 className="text-lg font-semibold text-gray-300 mb-2">
+                    Ahmad Rofiki
+                  </h3>
+                  <div className="inline-flex items-center px-4 py-2 bg-blue-500/10 rounded-full">
+                    <span className="text-blue-400 font-medium">
+                      Next.js 14 + TypeScript
                     </span>
-                    <span className="inline-block w-1 h-6 ml-1 bg-cyan-400 animate-pulse align-middle"></span>
-                  </span>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="text-center p-4 bg-gray-800/50 rounded-xl">
+                    <div className="text-2xl font-bold text-blue-400">7+</div>
+                    <div className="text-sm text-gray-400">Technologies</div>
+                  </div>
+                  <div className="text-center p-4 bg-gray-800/50 rounded-xl">
+                    <div className="text-2xl font-bold text-cyan-400">4+</div>
+                    <div className="text-sm text-gray-400">Projects</div>
+                  </div>
+                </div>
+
+                {/* Tech Stack Badges */}
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-gray-300 text-center">
+                    Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {techStack.slice(0, 6).map((tech, index) => {
+                      const Icon = tech.icon;
+                      return (
+                        <motion.div
+                          key={tech.name}
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 1 + index * 0.1 }}
+                          className="flex items-center space-x-1 px-3 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
+                        >
+                          <Icon className="text-blue-400" size={16} />
+                          <span className="text-sm text-gray-300">
+                            {tech.name}
+                          </span>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
+
+              {/* Floating Elements */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 3 }}
+                className="absolute -top-6 -right-6 p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl shadow-lg"
+              >
+                <span className="text-white font-bold">🚀</span>
+              </motion.div>
+
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 4, delay: 1 }}
+                className="absolute -bottom-6 -left-6 p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-lg"
+              >
+                <span className="text-white font-bold">✨</span>
+              </motion.div>
             </div>
           </motion.div>
+        </div>
 
-          {/* Bio */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            {personalInfo.bio}
-          </motion.p>
-
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="flex justify-center space-x-6 mb-12"
-          >
-            {socialLinks.map((social, index) => {
-              const Icon = social.icon;
-              return (
-                <motion.a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                  whileHover={{ scale: 1.1, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`p-4 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700 ${social.color} transition-all duration-300 group`}
-                  title={social.name}
-                >
-                  <Icon size={22} className="text-gray-300 group-hover:text-white transition-colors" />
-                </motion.a>
-              );
-            })}
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="flex flex-col sm:flex-row justify-center gap-4 mb-16"
-          >
-            <motion.a
-              href="#projects"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg shadow-blue-500/25"
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <div className="flex flex-col items-center">
+            <span className="text-gray-500 text-sm mb-2">Explore my work</span>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 2 }}
             >
-              <span>View Projects</span>
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              <svg
+                className="w-6 h-6 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
               </svg>
-            </motion.a>
-
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center px-8 py-4 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 rounded-full font-semibold text-lg transition-all duration-300"
-            >
-              <span>Get In Touch</span>
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-            </motion.a>
-          </motion.div>
-
-          {/* Tech Stack */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-            className="mt-12"
-          >
-            <p className="text-gray-500 text-sm mb-8 tracking-widest uppercase">TECH STACK</p>
-            <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-              {techStack.map((tech, index) => {
-                const Icon = tech.icon;
-                return (
-                  <motion.div
-                    key={tech.name}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 1.1 + index * 0.1 }}
-                    whileHover={{ y: -5 }}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 group"
-                  >
-                    <Icon className={`${tech.color} group-hover:scale-110 transition-transform`} size={18} />
-                    <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
-                      {tech.name}
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-      >
-        <div className="flex flex-col items-center">
-          <span className="text-gray-500 text-sm mb-2">Scroll down</span>
-          <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </motion.div>
     </section>
   );
 }
