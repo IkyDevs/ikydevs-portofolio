@@ -23,10 +23,32 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section
+      id="about"
+      className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+    >
       {/* Background Elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0">
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-0.5 h-20 bg-gradient-to-b from-blue-500/30 to-black/30"
+            style={{
+              left: `${15 + i * 10}%`,
+              top: "20%",
+            }}
+            animate={{
+              height: ["0%", "100%", "0%"],
+            }}
+            transition={{
+              duration: 3 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+          />
+        ))}
+      </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -67,8 +89,8 @@ export default function About() {
 
               <div className="space-y-4">
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  I'm new in the development world, but I'm very passionate about
-                  learning and creating amazing things with code.
+                  I'm new in the development world, but I'm very passionate
+                  about learning and creating amazing things with code.
                 </p>
 
                 <div className="relative inline-block">
@@ -84,8 +106,8 @@ export default function About() {
                 </div>
 
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  I love crafting beautiful, responsive websites and applications
-                  that provide exceptional user experiences.
+                  I love crafting beautiful, responsive websites and
+                  applications that provide exceptional user experiences.
                 </p>
               </div>
 
@@ -150,9 +172,7 @@ export default function About() {
                       <h4 className="text-xl font-bold mb-2 text-blue-400 group-hover:text-cyan-400 transition-colors">
                         {section.title}
                       </h4>
-                      <p className="text-gray-400">
-                        {section.description}
-                      </p>
+                      <p className="text-gray-400">{section.description}</p>
                     </div>
                   </div>
                 </motion.div>

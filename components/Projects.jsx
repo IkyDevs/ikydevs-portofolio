@@ -8,7 +8,29 @@ import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 export default function Projects() {
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0">
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-0.5 h-20 bg-gradient-to-b from-blue-500/30 to-cyan-500/30"
+            style={{
+              left: `${15 + i * 10}%`,
+              top: "20%",
+            }}
+            animate={{
+              height: ["0%", "100%", "0%"],
+            }}
+            transition={{
+              duration: 3 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+          />
+        ))}
+      </div>
       <div className="max-w-7xl mx-auto">
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -38,7 +60,8 @@ export default function Projects() {
               transition={{ delay: 0.3 }}
               className="text-gray-400 mt-6 max-w-2xl mx-auto"
             >
-              Here are some of my recent projects that showcase my skills and experience
+              Here are some of my recent projects that showcase my skills and
+              experience
             </motion.p>
           </div>
 
@@ -65,7 +88,9 @@ export default function Projects() {
                   />
 
                   {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-t ${project.accentColor} opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-t ${project.accentColor} opacity-0 group-hover:opacity-30 transition-opacity duration-500`}
+                  ></div>
 
                   {/* Tags Badge */}
                   <div className="absolute top-4 left-4">
@@ -136,7 +161,9 @@ export default function Projects() {
                 </div>
 
                 {/* Hover Effect Border */}
-                <div className={`absolute inset-0 border-2 ${project.accentColor} opacity-0 group-hover:opacity-50 rounded-2xl transition-opacity duration-500 pointer-events-none`}></div>
+                <div
+                  className={`absolute inset-0 border-2 ${project.accentColor} opacity-0 group-hover:opacity-50 rounded-2xl transition-opacity duration-500 pointer-events-none`}
+                ></div>
               </motion.div>
             ))}
           </div>
