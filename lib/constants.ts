@@ -14,6 +14,7 @@ import {
   FaMobileAlt,
   FaTerminal,
   FaCode,
+  FaInstagram,
 } from "react-icons/fa";
 
 import {
@@ -45,19 +46,18 @@ export interface SocialLink {
 export const socialLinks: SocialLink[] = [
   {
     name: "GitHub",
-    url: "https://github.com/ikdevs",
+    url: "https://github.com/IkyDevs",
     icon: FaGithub,
   },
-  {
-    name: "LinkedIn",
-    url: "https://linkedin.com/in/ikdevs",
-    icon: FaLinkedin,
-  },
-
   {
     name: "Email",
     url: "mailto:ahmadrofiki6146@gmail.com",
     icon: FaEnvelope,
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/rfky_ahmadz/",
+    icon: FaInstagram,
   },
 ];
 
@@ -150,19 +150,19 @@ export const projects = [
 // Experience Data
 export const experiences = [
   {
-    year: "2023 - Now",
+    year: "2025 - Now",
     role: "House Keeping - Staff",
     company: "Boddington Villas",
     description: "Maintaining cleanliness and order in villa premises",
   },
   {
-    year: "2022 - 2023",
+    year: "2024 - now",
     role: "Wall Finishing",
     company: "Villa Bali",
     description: "Specialized in plastering and painting villa walls",
   },
   {
-    year: "2021 - 2022",
+    year: "2021 - now",
     role: "Technical Phone repair",
     company: "Dream Tech",
     description: "Specialized in repairing and troubleshooting mobile devices",

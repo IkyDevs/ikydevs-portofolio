@@ -356,41 +356,7 @@ const Contact = () => {
             </form>
           </motion.div>
 
-          {/* Setup Instructions */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-8 p-4 bg-gray-900/30 rounded-lg border border-gray-800"
-          >
-            <h4 className="text-sm font-medium text-gray-300 mb-2">
-              ⚙️ EmailJS Setup Required:
-            </h4>
-            <ul className="text-xs text-gray-500 space-y-1">
-              <li>
-                1. Sign up at{" "}
-                <a
-                  href="https://www.emailjs.com"
-                  className="text-blue-400"
-                  target="_blank"
-                >
-                  emailjs.com
-                </a>
-              </li>
-              <li>2. Create email service (Gmail recommended)</li>
-              <li>
-                3. Create email template with variables: {"{{from_name}}"},{" "}
-                {"{{from_email}}"}, {"{{subject}}"}, {"{{message}}"}
-              </li>
-              <li>4. Get your Service ID, Template ID, and Public Key</li>
-              <li>
-                5. Update the EMAILJS_CONFIG object above with your credentials
-              </li>
-              <li className="text-green-400 font-medium">
-                📧 Test email will be sent to: ahmadrofiki6146@gmail.com
-              </li>
-            </ul>
-          </motion.div>
+          
         </div>
       </div>
     </section>
