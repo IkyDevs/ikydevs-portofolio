@@ -106,7 +106,6 @@ export const skills: Skill[] = [
     color: "from-yellow-500 to-orange-500",
     icon: FaFlutter,
   },
-
 ];
 
 // Projects Data (tetap sama)
@@ -137,6 +136,15 @@ export const projects = [
     live: "https://ahmad-rofiki.vercel.app/",
     image: "/image/project/3.png",
   },
+  {
+    title: "DIGITAL MEDICAL RECORD SYSTEM",
+    description:
+      "Digital Medical Record System for my small business to manage patient data and medical records, still develop, but you can test the system",
+    tags: ["Next.js", "Javascript", "Tailwind", "Framer Motion"],
+    github: "https://github.com/IkyDevs/mdr-ui",
+    live: "https://ikydevs-mdr-ui.vercel.app/",
+    image: "/image/project/4.png",
+  },
 ];
 
 // Experience Data
@@ -159,7 +167,6 @@ export const experiences = [
     company: "Dream Tech",
     description: "Specialized in repairing and troubleshooting mobile devices",
   },
-
 ];
 
 // Tech Stack untuk Hero Section

@@ -37,19 +37,10 @@ const Navbar = () => {
             className="flex items-center space-x-2 cursor-pointer"
             onClick={() => handleNavClick('home')}
           >
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                <Zap className="w-6 h-6" />
-              </div>
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-2 border-2 border-blue-500/30 rounded-lg"
-              />
-            </div>
+
             <span className="text-2xl font-bold">
               <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                IK<span className="text-white">Y</span>DEVS
+                IKY<span className="text-white">DEVS</span>
               </span>
             </span>
           </motion.div>
