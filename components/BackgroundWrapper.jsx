@@ -1,45 +1,29 @@
-'use client';
+"use client";
+import { motion } from "framer-motion";
 
-import { motion } from 'framer-motion';
-import AnimatedBackground from './AnimatedBackground';
-
-const BackgroundWrapper = ({
-  sectionId,
-  variant = 'gradient',
-  intensity = 'medium',
-  className = '',
-  children
-}) => {
-  // Variant mapping berdasarkan section
-  const sectionVariants = {
-    hero: { variant: 'gradient', intensity: 'high' },
-    about: { variant: 'grid', intensity: 'low' },
-    projects: { variant: 'particles', intensity: 'medium' },
-    skills: { variant: 'blob', intensity: 'medium' },
-    contact: { variant: 'waves', intensity: 'high' },
-  };
-
-  const config = sectionVariants[sectionId] || { variant, intensity };
-
+export default function BackgroundWrapper({ children }) {
   return (
-    <motion.section
-      id={sectionId}
-      className={`relative min-h-screen ${className}`}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8 }}
-    >
-      <AnimatedBackground
-        variant={config.variant}
-        intensity={config.intensity}
-      >
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          {children}
-        </div>
-      </AnimatedBackground>
-    </motion.section>
-  );
-};
+    <div className="relative min-h-screen overflow-hidden bg-white">
+      {/* floating shapes */}
+      <motion.div
+        animate={{ y: [0, 20, 0] }}
+        transition={{ duration: 6, repeat: Infinity }}
+        className="absolute top-20 left-10 w-40 h-40 bg-yellow-300 border-4 border-black rounded-xl -z-10"
+      />
 
-export default BackgroundWrapper;
+      <motion.div
+        animate={{ y: [0, -30, 0] }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute bottom-32 right-20 w-56 h-56 bg-blue-300 border-4 border-black rounded-full -z-10"
+      />
+
+      <motion.div
+        animate={{ x: [0, 20, 0] }}
+        transition={{ duration: 10, repeat: Infinity }}
+        className="absolute top-1/2 left-1/2 w-32 h-32 bg-purple-300 border-4 border-black rounded-lg -z-10"
+      />
+
+      {children}
+    </div>
+  );
+}

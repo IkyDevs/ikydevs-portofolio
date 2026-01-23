@@ -1,28 +1,31 @@
-// components/Footer.jsx
+// components/Footer.tsx
 "use client";
 import { motion } from "framer-motion";
 import { FaArrowUp, FaHeart } from "react-icons/fa";
 import { socialLinks } from "@/lib/constants";
+import { themeColor } from "@/lib/colors";
+
+const theme = themeColor.pastel;
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer className="bg-gray-900 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {/* Brand Info */}
+    <footer className={`${theme.bg} border-t-4 border-black`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid md:grid-cols-3 gap-10 mb-10">
+          {/* Brand */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-blue-400 mb-4">IkyDevs</h3>
-            <p className="text-gray-400 mb-4">
+            <h3 className="text-2xl font-black mb-4">IkyDevs</h3>
+            <p className="text-neutral-600 mb-4">
               Frontend Developer passionate about creating beautiful and
               functional web applications.
             </p>
@@ -30,28 +33,30 @@ export default function Footer() {
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
-                  <a
+                  <motion.a
                     key={social.name}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-blue-400 transition"
+                    whileHover={{ y: -4, scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-2 border-2 border-black shadow-[3px_3px_0_#000]"
                   >
                     <Icon size={18} />
-                  </a>
+                  </motion.a>
                 );
               })}
             </div>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-lg font-black mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {[
                 "Home",
@@ -64,7 +69,7 @@ export default function Footer() {
                 <li key={item}>
                   <a
                     href={`#${item.toLowerCase()}`}
-                    className="text-gray-400 hover:text-blue-400 transition"
+                    className="hover:underline"
                   >
                     {item}
                   </a>
@@ -73,51 +78,43 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Contact Info */}
+          {/* Contact */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="text-lg font-semibold mb-4">Contact</h4>
-            <p className="text-gray-400 mb-2">Have a project in mind?</p>
+            <h4 className="text-lg font-black mb-4">Contact</h4>
+            <p className="mb-2">Have a project in mind?</p>
             <a
               href="mailto:ahmadrofiki6146@gmail.com"
-              className="text-blue-400 hover:text-blue-300 transition"
+              className="font-bold underline"
             >
               ahmadrofiki6146@gmail.com
             </a>
           </motion.div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-800 my-8"></div>
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-gray-500 text-sm mb-4 md:mb-0 flex items-center"
+            className="text-sm flex items-center"
           >
-            © {currentYear} Ahmad Rofiki. Made with
-            <FaHeart className="mx-1 text-red-500" />
-            using Next.js & Tailwind
+            © {year} Ahmad Rofiki. Made with
+            <FaHeart className="mx-1 text-red-500" /> Next.js
           </motion.p>
 
-          {/* Back to Top */}
           <motion.button
             onClick={scrollToTop}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ y: -4, scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 rounded-full font-semibold transition-all"
+            className={`${theme.primary} mt-4 md:mt-0 px-6 py-2 border-2 border-black shadow-[3px_3px_0_#000] flex items-center gap-2 font-bold`}
           >
-            <span>Back to Top</span>
+            Back to Top
             <FaArrowUp />
           </motion.button>
         </div>
