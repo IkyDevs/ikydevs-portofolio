@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
-, "lib/colors.js"  ],
+, "lib/colors.js", "components/HighlightText.jsx", "components/BackgroundWrapper.jsx"  ],
   "exclude": [
     "node_modules"
   ]
