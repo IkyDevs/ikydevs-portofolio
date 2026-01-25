@@ -1,7 +1,7 @@
 // components/About.tsx
 "use client";
 import { motion } from "framer-motion";
-import { aboutSections, personalInfo } from "@/lib/constants";
+import { aboutSections, personalInfo, projects } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import { themeColor } from "@/lib/colors";
 
@@ -77,8 +77,10 @@ export default function About() {
                 <div className="relative inline-block">
                   <p className="text-lg leading-relaxed text-neutral-700">
                     I specialize in creating{" "}
-                    <span className="relative inline-block">
-                      <span className="font-bold">
+                    <span className={`${theme.surface}  border-4 border-black p-1 shadow-[6px_6px_0_#000] transition-all`}>
+                      <span
+                        className={`text-bold`}
+                      >
                         {highlights[highlightIndex]}
                       </span>
                       <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-black"></span>
@@ -101,7 +103,7 @@ export default function About() {
                   transition={{ delay: 0.4 }}
                   className={`${theme.surface} border-2 border-black p-4 text-center shadow-[3px_3px_0_#000]`}
                 >
-                  <div className="text-2xl font-black">10+</div>
+                  <div className="text-2xl font-black">{ projects.length }</div>
                   <div className="text-sm">Projects</div>
                 </motion.div>
 
@@ -112,7 +114,7 @@ export default function About() {
                   transition={{ delay: 0.5 }}
                   className={`${theme.surface} border-2 border-black p-4 text-center shadow-[3px_3px_0_#000]`}
                 >
-                  <div className="text-2xl font-black">2+</div>
+                  <div className="text-2xl font-black">1</div>
                   <div className="text-sm">Years</div>
                 </motion.div>
 

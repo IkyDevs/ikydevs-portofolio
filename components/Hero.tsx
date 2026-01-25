@@ -6,6 +6,7 @@ import {
   techStack,
   socialLinks,
   typingTexts,
+  projects,
 } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import HighlightText from "./HighlightText";
@@ -166,7 +167,7 @@ export default function Hero() {
                   <div
                     className={`${theme.secondary} inline-block px-4 py-2 border-2 border-black font-bold`}
                   >
-                    Next.js 14 + TypeScript
+                  Front ENd Developer
                   </div>
                 </div>
 
@@ -175,14 +176,14 @@ export default function Hero() {
                   <div
                     className={`${theme.surface} border-2 border-black p-4 text-center`}
                   >
-                    <div className="text-2xl font-black">7+</div>
-                    <div className="text-sm">Technologies</div>
+                    <div className="text-2xl font-black">{ projects.length}</div>
+                    <div className="text-sm">Project</div>
                   </div>
                   <div
                     className={`${theme.surface} border-2 border-black p-4 text-center`}
                   >
-                    <div className="text-2xl font-black">4+</div>
-                    <div className="text-sm">Projects</div>
+                    <div className="text-2xl font-black">{ techStack.length}</div>
+                    <div className="text-sm">Technology Learning</div>
                   </div>
                 </div>
 
@@ -190,7 +191,7 @@ export default function Hero() {
                 <div className="space-y-4">
                   <h4 className="text-lg font-black text-center">Tech Stack</h4>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {techStack.slice(0, 6).map((tech, index) => {
+                    {techStack.map((tech, index) => {
                       const Icon = tech.icon;
                       return (
                         <motion.div
@@ -219,7 +220,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2"
         >
           <div className="flex flex-col items-center">
             <span className="text-neutral-500 text-sm mb-2">
