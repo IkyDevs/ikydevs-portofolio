@@ -167,7 +167,7 @@ export default function Hero() {
                   <div
                     className={`${theme.secondary} inline-block px-4 py-2 border-2 border-black font-bold`}
                   >
-                  Front ENd Developer
+                    Front End Developer
                   </div>
                 </div>
 
@@ -176,13 +176,15 @@ export default function Hero() {
                   <div
                     className={`${theme.surface} border-2 border-black p-4 text-center`}
                   >
-                    <div className="text-2xl font-black">{ projects.length}</div>
+                    <div className="text-2xl font-black">{projects.length}</div>
                     <div className="text-sm">Project</div>
                   </div>
                   <div
                     className={`${theme.surface} border-2 border-black p-4 text-center`}
                   >
-                    <div className="text-2xl font-black">{ techStack.length}</div>
+                    <div className="text-2xl font-black">
+                      {techStack.length}
+                    </div>
                     <div className="text-sm">Technology Learning</div>
                   </div>
                 </div>
