@@ -1,10 +1,8 @@
 // app/layout.js
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Ahmad Rofiki - Portfolio",
@@ -17,7 +15,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={`${inter.className} bg-gray-900 text-white`}>
+      <body className="bg-gray-900 text-white font-sans">
         <Navbar />
         <main>{children}</main>
         <Footer />

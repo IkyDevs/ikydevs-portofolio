@@ -35,9 +35,22 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
   }, []);
 
   const handleStart = () => {
+    if (window.location.hash) {
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}`,
+      );
+    }
+
+    window.scrollTo({ top: 0, behavior: "auto" });
     setDone(true);
+
     setTimeout(() => {
       onFinish?.();
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      });
     }, 500);
   };
 
@@ -144,6 +157,7 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
                   className="mt-8"
                 >
                   <motion.button
+                    type="button"
                     onClick={handleStart}
                     /* IDLE ANIMATION (kalau gak di-hover) */
                     animate={{
