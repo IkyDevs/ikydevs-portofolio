@@ -6,7 +6,6 @@ import { contactInfo, personalInfo, socialLinks } from "@/lib/constants";
 import { useState, ChangeEvent, FormEvent } from "react";
 import {
   FaCheck,
-  FaExclamationTriangle,
   FaPaperPlane,
   FaSpinner,
   FaEnvelope,
@@ -145,6 +144,8 @@ export default function Contact() {
   const inputBase =
     "w-full px-4 py-3 bg-white border-2 border-black focus:outline-none focus:ring-2 focus:ring-black transition";
 
+  const textFields: Array<keyof typeof formData> = ["name", "email", "subject"];
+
   return (
     <section
       id="contact"
@@ -192,14 +193,14 @@ export default function Contact() {
             viewport={{ once: true }}
             className={`${theme.surface} border-4 border-black p-8 shadow-[8px_8px_0_#000] space-y-6`}
           >
-            {["name", "email", "subject"].map((field) => (
+            {textFields.map((field) => (
               <motion.input
                 key={field}
                 whileFocus={{ scale: 1.02 }}
                 type="text"
                 name={field}
                 placeholder={field.toUpperCase()}
-                value={(formData as any)[field]}
+                value={formData[field]}
                 onChange={handleChange}
                 className={inputBase}
               />

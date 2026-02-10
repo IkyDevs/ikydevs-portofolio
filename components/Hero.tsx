@@ -8,8 +8,8 @@ import {
   typingTexts,
   projects,
 } from "@/lib/constants";
-import { useState, useEffect } from "react";
 import HighlightText from "./HighlightText";
+import Image from "next/image";
 import { themeColor } from "@/lib/colors";
 
 const theme = themeColor.pastel;
@@ -49,7 +49,7 @@ export default function Hero() {
                 transition={{ delay: 0.3 }}
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black"
               >
-                <span className="block text-neutral-600">Hi, I'm</span>
+                <span className="block text-neutral-600">Hi, I&apos;m</span>
                 <span className="block">{personalInfo.name}</span>
               </motion.h1>
 
@@ -61,7 +61,7 @@ export default function Hero() {
                 className="flex items-center space-x-2"
               >
                 <span className="text-xl md:text-2xl text-neutral-600">
-                  I'm a
+                  I&apos;m a
                 </span>
                 <div className="px-4 py-2 bg-white border-2 border-black shadow-[4px_4px_0_#000]">
                   <span className="text-xl md:text-2xl font-mono font-bold">
@@ -153,9 +153,11 @@ export default function Hero() {
                 {/* Avatar */}
                 <div className="flex justify-center mb-8">
                   <div className="w-40 h-40 rounded-full border-4 border-black overflow-hidden">
-                    <img
+                    <Image
                       src="/image/1.jpeg"
                       alt="Avatar"
+                      width={160}
+                      height={160}
                       className="w-full h-full object-cover"
                     />
                   </div>

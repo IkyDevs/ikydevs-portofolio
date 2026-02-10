@@ -1,21 +1,21 @@
 // components/About.tsx
 "use client";
 import { motion } from "framer-motion";
-import { aboutSections, personalInfo, projects } from "@/lib/constants";
+import { aboutSections, projects } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import { themeColor } from "@/lib/colors";
 
 const theme = themeColor.pastel;
+const highlights = [
+  "beautiful interfaces",
+  "responsive designs",
+  "clean code",
+  "amazing experiences",
+  "modern solutions",
+];
 
 export default function About() {
   const [highlightIndex, setHighlightIndex] = useState<number>(0);
-  const highlights = [
-    "beautiful interfaces",
-    "responsive designs",
-    "clean code",
-    "amazing experiences",
-    "modern solutions",
-  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,7 +70,7 @@ export default function About() {
 
               <div className="space-y-4">
                 <p className="text-lg leading-relaxed text-neutral-700">
-                  I'm new in the development world, but I'm very passionate
+                  I&apos;m new in the development world, but I&apos;m very passionate
                   about learning and creating amazing things with code.
                 </p>
 
