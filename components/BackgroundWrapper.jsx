@@ -1,27 +1,40 @@
+// components/BackgroundWrapper.jsx
 "use client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import Parallax from "./Parallax";
 
 export default function BackgroundWrapper({ children }) {
+  const reduced = useReducedMotion();
+
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white">
-      {/* floating shapes */}
-      <motion.div
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 6, repeat: Infinity }}
-        className="absolute top-20 left-10 w-40 h-40 bg-yellow-300 border-4 border-black rounded-xl -z-10"
-      />
+    <div className="relative min-h-screen overflow-hidden bg-[#09090b]">
+      {/* grid overlay */}
+      <div className="grid-bg absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]" />
 
-      <motion.div
-        animate={{ y: [0, -30, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        className="absolute bottom-32 right-20 w-56 h-56 bg-blue-300 border-4 border-black rounded-full -z-10"
-      />
+      {/* indigo/violet glow orbs - blur statis, gerak transform-only */}
+      <Parallax speed={60} className="absolute -top-40 -left-40 w-[600px] h-[600px] -z-10">
+        <motion.div
+          animate={reduced ? { opacity: 0.25 } : { opacity: [0.2, 0.35, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="w-full h-full rounded-full bg-indigo-600/30 blur-3xl"
+        />
+      </Parallax>
 
-      <motion.div
-        animate={{ x: [0, 20, 0] }}
-        transition={{ duration: 10, repeat: Infinity }}
-        className="absolute top-1/2 left-1/2 w-32 h-32 bg-purple-300 border-4 border-black rounded-lg -z-10"
-      />
+      <Parallax speed={-80} className="absolute top-1/3 -right-40 w-[500px] h-[500px] -z-10">
+        <motion.div
+          animate={reduced ? { opacity: 0.2 } : { opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: 12, repeat: Infinity, delay: 2 }}
+          className="w-full h-full rounded-full bg-violet-600/25 blur-3xl"
+        />
+      </Parallax>
+
+      <Parallax speed={40} className="absolute -bottom-40 left-1/4 w-[500px] h-[500px] -z-10">
+        <motion.div
+          animate={reduced ? { opacity: 0.15 } : { opacity: [0.12, 0.25, 0.12] }}
+          transition={{ duration: 14, repeat: Infinity, delay: 4 }}
+          className="w-full h-full rounded-full bg-blue-600/20 blur-3xl"
+        />
+      </Parallax>
 
       {children}
     </div>

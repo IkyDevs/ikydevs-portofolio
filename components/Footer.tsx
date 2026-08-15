@@ -2,20 +2,35 @@
 "use client";
 import { motion } from "framer-motion";
 import { FaArrowUp, FaHeart } from "react-icons/fa";
-import { socialLinks } from "@/lib/constants";
+import { socialLinks, navItems } from "@/lib/constants";
 import { themeColor } from "@/lib/colors";
+import { useLenis } from "./LenisProvider";
 
-const theme = themeColor.pastel;
+const theme = themeColor.dark;
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const lenis = useLenis();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (lenis) {
+      lenis.scrollTo(0);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const scrollToSection = (id: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (lenis) {
+      lenis.scrollTo(`#${id}`, { offset: -96 });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <footer className={`${theme.bg} border-t-4 border-black`}>
+    <footer className="border-t border-white/10 bg-[#0c0c10]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid md:grid-cols-3 gap-10 mb-10">
           {/* Brand */}
@@ -24,12 +39,14 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-black mb-4">IkyDevs</h3>
-            <p className="text-neutral-600 mb-4">
+            <h3 className="text-xl font-bold tracking-tight mb-4 text-zinc-100">
+              Iky<span className="text-indigo-400">Devs</span>
+            </h3>
+            <p className="text-zinc-400 mb-4 text-sm">
               Frontend Developer passionate about creating beautiful and
               functional web applications.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -38,11 +55,12 @@ export default function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={social.name}
                     whileHover={{ y: -4, scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="p-2 border-2 border-black shadow-[3px_3px_0_#000]"
+                    className="glass glass-hover rounded-lg p-2.5 text-zinc-300"
                   >
-                    <Icon size={18} />
+                    <Icon size={16} />
                   </motion.a>
                 );
               })}
@@ -56,22 +74,18 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="text-lg font-black mb-4">Quick Links</h4>
+            <h4 className="text-sm font-semibold text-zinc-200 mb-4 uppercase tracking-widest">
+              Quick Links
+            </h4>
             <ul className="space-y-2">
-              {[
-                "Home",
-                "About",
-                "Skills",
-                "Projects",
-                "Experience",
-                "Contact",
-              ].map((item) => (
-                <li key={item}>
+              {navItems.map((item) => (
+                <li key={item.id}>
                   <a
-                    href={`#${item.toLowerCase()}`}
-                    className="hover:underline"
+                    href={`#${item.id}`}
+                    onClick={(e) => scrollToSection(item.id, e)}
+                    className="text-zinc-400 hover:text-indigo-300 transition-colors"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 </li>
               ))}
@@ -85,11 +99,13 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="text-lg font-black mb-4">Contact</h4>
-            <p className="mb-2">Have a project in mind?</p>
+            <h4 className="text-sm font-semibold text-zinc-200 mb-4 uppercase tracking-widest">
+              Contact
+            </h4>
+            <p className="mb-2 text-zinc-400 text-sm">Have a project in mind?</p>
             <a
               href="mailto:ahmadrofiki6146@gmail.com"
-              className="font-bold underline"
+              className="font-medium text-indigo-300 hover:text-indigo-200 transition-colors"
             >
               ahmadrofiki6146@gmail.com
             </a>
@@ -97,22 +113,22 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center border-t-4 border-black pt-6">
+        <div className="flex flex-col md:flex-row justify-between items-center border-t border-white/10 pt-6">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-sm flex items-center"
+            className="text-sm text-zinc-500 flex items-center"
           >
             © {year} Ahmad Rofiki. Made with
-            <FaHeart className="mx-1 text-red-500" /> Next.js
+            <FaHeart className="mx-1 text-indigo-400" /> Next.js
           </motion.p>
 
           <motion.button
             onClick={scrollToTop}
             whileHover={{ y: -4, scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`${theme.primary} mt-4 md:mt-0 px-6 py-2 border-2 border-black shadow-[3px_3px_0_#000] flex items-center gap-2 font-bold`}
+            className={`${theme.accent} mt-4 md:mt-0 px-6 py-2.5 rounded-lg flex items-center gap-2 font-semibold text-sm`}
           >
             Back to Top
             <FaArrowUp />

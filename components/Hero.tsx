@@ -1,6 +1,8 @@
 // components/Hero.tsx
 "use client";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import {
   personalInfo,
   techStack,
@@ -8,31 +10,51 @@ import {
   typingTexts,
   projects,
 } from "@/lib/constants";
-import { useState, useEffect } from "react";
 import HighlightText from "./HighlightText";
+import Magnetic from "./Magnetic";
+import CountUp from "./CountUp";
+import { useLenis } from "./LenisProvider";
 import { themeColor } from "@/lib/colors";
 
-const theme = themeColor.pastel;
+const theme = themeColor.dark;
+
+const nameChars = personalInfo.name.split("");
 
 export default function Hero() {
+  const lenis = useLenis();
+  const reduced = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const cardRotateX = useTransform(scrollYProgress, [0, 1], [0, -14]);
+  const cardY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const glowOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.2]);
+
+  const scrollToSection = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (lenis) {
+      lenis.scrollTo(`#${id}`, { offset: -96 });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section
       id="home"
-      className={`min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden ${theme.bg} ${theme.text}`}
+      ref={heroRef}
+      className={`min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden ${theme.bg}`}
     >
-      {/* Background */}
-      <div className={`absolute inset-0 ${theme.bg}`}></div>
-
-      {/* Floating Elements */}
-      <div
-        className={`absolute top-1/4 left-10 w-64 h-64 ${theme.secondary}/20 rounded-full blur-3xl animate-float`}
-      />
-      <div
-        className={`absolute bottom-1/4 right-10 w-80 h-80 ${theme.primary}/20 rounded-full blur-3xl animate-float`}
-        style={{ animationDelay: "2s" }}
+      {/* radial glow top */}
+      <motion.div
+        style={{ opacity: reduced ? 1 : glowOpacity }}
+        className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_0%,rgba(99,102,241,0.15),transparent)]"
       />
 
-      <div className="max-w-7xl mx-auto w-full relative z-10 mt-32">
+      <div className="max-w-7xl mx-auto w-full relative z-10 pt-32 pb-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* LEFT */}
           <motion.div
@@ -43,28 +65,55 @@ export default function Hero() {
           >
             {/* Title */}
             <div className="space-y-4">
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="inline-flex items-center gap-2 text-sm font-medium text-indigo-300"
+              >
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+                Frontend Developer
+              </motion.p>
+
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight"
               >
-                <span className="block text-neutral-600">Hi, I'm</span>
-                <span className="block">{personalInfo.name}</span>
+                <span className="block text-zinc-400 text-2xl md:text-3xl font-semibold mb-2">
+                  Hi, I&apos;m
+                </span>
+                <span className="block glow-text">
+                  {nameChars.map((char, index) => (
+                    <motion.span
+                      key={index}
+                      className="inline-block whitespace-pre"
+                      initial={{ opacity: 0, y: 40, rotateX: 90 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 18,
+                        delay: 0.35 + 0.05 * index,
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
               </motion.h1>
 
               {/* Typing */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.5 }}
                 className="flex items-center space-x-2"
               >
-                <span className="text-xl md:text-2xl text-neutral-600">
-                  I'm a
-                </span>
-                <div className="px-4 py-2 bg-white border-2 border-black shadow-[4px_4px_0_#000]">
-                  <span className="text-xl md:text-2xl font-mono font-bold">
+                <span className="text-xl md:text-2xl text-zinc-400">I&apos;m a</span>
+                <div className="glass glass-hover rounded-lg px-5 py-2.5">
+                  <span className="text-xl md:text-2xl font-mono font-semibold">
                     <HighlightText texts={typingTexts} />
                   </span>
                 </div>
@@ -75,8 +124,8 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-lg text-neutral-700 leading-relaxed max-w-xl"
+              transition={{ delay: 0.6 }}
+              className="text-lg text-zinc-400 leading-relaxed max-w-xl"
             >
               {personalInfo.bio}
             </motion.p>
@@ -85,37 +134,43 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.7 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
-              <motion.a
-                href="#projects"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`${theme.primary} border-4 border-black px-8 py-3 font-bold uppercase shadow-[4px_4px_0_#000] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none`}
-              >
-                View Projects →
-              </motion.a>
+              <Magnetic>
+                <motion.a
+                  href="#projects"
+                  onClick={scrollToSection("projects")}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`${theme.accent} inline-block rounded-lg px-8 py-3.5 font-semibold uppercase tracking-wider text-sm shadow-[0_0_40px_-10px_rgba(99,102,241,0.8)] transition-shadow hover:shadow-[0_0_60px_-10px_rgba(99,102,241,1)]`}
+                >
+                  View Projects →
+                </motion.a>
+              </Magnetic>
 
-              <motion.a
-                href="#contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`${theme.surface} border-4 border-black px-8 py-3 font-bold uppercase shadow-[4px_4px_0_#000] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none`}
-              >
-                Contact Me
-              </motion.a>
+              <Magnetic>
+                <motion.a
+                  href="#contact"
+                  onClick={scrollToSection("contact")}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`glass glass-hover inline-block rounded-lg px-8 py-3.5 font-semibold uppercase tracking-wider text-sm text-zinc-100`}
+                >
+                  Contact Me
+                </motion.a>
+              </Magnetic>
             </motion.div>
 
             {/* Social */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
+              transition={{ delay: 0.8 }}
               className="pt-6"
             >
-              <p className="text-neutral-500 text-sm mb-4">Connect with me</p>
-              <div className="flex space-x-4">
+              <p className="text-zinc-500 text-sm mb-4">Connect with me</p>
+              <div className="flex space-x-3">
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon;
                   return (
@@ -124,14 +179,15 @@ export default function Hero() {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={social.name}
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ delay: 0.8 + index * 0.1 }}
+                      transition={{ delay: 0.9 + index * 0.1 }}
                       whileHover={{ scale: 1.1, y: -3 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`${theme.bg} p-3 border-2 border-black shadow-[3px_3px_0_#000] transition-all`}
+                      className="glass glass-hover rounded-lg p-3 text-zinc-300"
                     >
-                      <Icon size={20} className={theme.text} />
+                      <Icon size={20} />
                     </motion.a>
                   );
                 })}
@@ -139,33 +195,42 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT */}
+          {/* RIGHT - 3D card, reaktif scroll */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative"
+            style={{
+              rotateX: reduced ? 0 : cardRotateX,
+              y: reduced ? 0 : cardY,
+              transformPerspective: 1000,
+              transformStyle: "preserve-3d",
+            }}
           >
             <div className="relative mx-auto max-w-md">
-              <div
-                className={`${theme.surface} border-4 border-black shadow-[8px_8px_0_#000] p-8`}
-              >
+              <div className="glass rounded-2xl p-8 shadow-[0_0_120px_-30px_rgba(99,102,241,0.6)]">
                 {/* Avatar */}
                 <div className="flex justify-center mb-8">
-                  <div className="w-40 h-40 rounded-full border-4 border-black overflow-hidden">
-                    <img
+                  <div className="relative w-40 h-40 rounded-2xl overflow-hidden border border-white/15">
+                    <Image
                       src="/image/1.jpeg"
-                      alt="Avatar"
-                      className="w-full h-full object-cover"
+                      alt="Ahmad Rofiki"
+                      fill
+                      priority
+                      sizes="160px"
+                      className="object-cover"
                     />
                   </div>
                 </div>
 
                 {/* Name */}
                 <div className="text-center mb-8">
-                  <h3 className="text-lg font-black mb-2">Ahmad Rofiki</h3>
+                  <h3 className="text-lg font-bold mb-3 text-zinc-100">
+                    Ahmad Rofiki
+                  </h3>
                   <div
-                    className={`${theme.secondary} inline-block px-4 py-2 border-2 border-black font-bold`}
+                    className={`${theme.accentSoft} inline-block rounded-full px-4 py-1.5 text-sm font-medium`}
                   >
                     Front End Developer
                   </div>
@@ -173,25 +238,25 @@ export default function Hero() {
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div
-                    className={`${theme.surface} border-2 border-black p-4 text-center`}
-                  >
-                    <div className="text-2xl font-black">{projects.length}</div>
-                    <div className="text-sm">Project</div>
-                  </div>
-                  <div
-                    className={`${theme.surface} border-2 border-black p-4 text-center`}
-                  >
-                    <div className="text-2xl font-black">
-                      {techStack.length}
+                  <div className="glass rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-indigo-300">
+                      <CountUp to={projects.length} />
                     </div>
-                    <div className="text-sm">Technology Learning</div>
+                    <div className="text-sm text-zinc-500">Projects</div>
+                  </div>
+                  <div className="glass rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-indigo-300">
+                      <CountUp to={techStack.length} />
+                    </div>
+                    <div className="text-sm text-zinc-500">Technologies</div>
                   </div>
                 </div>
 
                 {/* Tech Stack */}
                 <div className="space-y-4">
-                  <h4 className="text-lg font-black text-center">Tech Stack</h4>
+                  <h4 className="text-sm font-semibold text-zinc-400 text-center uppercase tracking-widest">
+                    Tech Stack
+                  </h4>
                   <div className="flex flex-wrap justify-center gap-2">
                     {techStack.map((tech, index) => {
                       const Icon = tech.icon;
@@ -201,9 +266,9 @@ export default function Hero() {
                           initial={{ opacity: 0, scale: 0 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: 1 + index * 0.1 }}
-                          className={`${theme.surface} border-2 border-black px-3 py-2 flex items-center gap-1`}
+                          className="glass glass-hover rounded-lg px-3 py-2 flex items-center gap-1.5 text-zinc-300"
                         >
-                          <Icon size={16} />
+                          <Icon size={16} className={tech.color} />
                           <span className="text-sm font-medium">
                             {tech.name}
                           </span>

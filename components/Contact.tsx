@@ -6,7 +6,6 @@ import { contactInfo, personalInfo, socialLinks } from "@/lib/constants";
 import { useState, ChangeEvent, FormEvent } from "react";
 import {
   FaCheck,
-  FaExclamationTriangle,
   FaPaperPlane,
   FaSpinner,
   FaEnvelope,
@@ -16,7 +15,7 @@ import {
 import emailjs from "@emailjs/browser";
 import { themeColor } from "@/lib/colors";
 
-const theme = themeColor.pastel;
+const theme = themeColor.dark;
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -40,10 +39,6 @@ export default function Contact() {
     message: "",
   });
 
-  /* =======================
-      LOGIC ASLI (UNCHANGED)
-     ======================= */
-
   const initializeEmailJS = () => {
     const SERVICE_ID = "service_ol3q5u5";
     const TEMPLATE_ID = "template_sytgo9f";
@@ -66,6 +61,9 @@ export default function Contact() {
     }
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address";
       isValid = false;
     }
     if (!formData.subject.trim()) {
@@ -138,17 +136,13 @@ export default function Contact() {
     }
   };
 
-  /* =======================
-        UI CLASSES
-     ======================= */
-
   const inputBase =
-    "w-full px-4 py-3 bg-white border-2 border-black focus:outline-none focus:ring-2 focus:ring-black transition";
+    "w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-400 transition";
 
   return (
     <section
       id="contact"
-      className={`py-24 px-4 sm:px-6 lg:px-8 ${theme.bg} ${theme.text}`}
+      className={`py-24 px-4 sm:px-6 lg:px-8 ${theme.bg}`}
     >
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
@@ -158,11 +152,14 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            {contactInfo.title}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 text-zinc-100">
+            Let&apos;s{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
+              Build Together
+            </span>
           </h2>
-          <div className="h-1 w-20 bg-black mx-auto" />
-          <p className="mt-6 text-neutral-600 max-w-2xl mx-auto">
+          <div className="h-0.5 w-20 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto rounded-full" />
+          <p className="mt-6 text-zinc-400 max-w-2xl mx-auto">
             {contactInfo.description}
           </p>
         </motion.div>
@@ -174,9 +171,9 @@ export default function Contact() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mb-8 border-4 border-black bg-green-100 p-6 shadow-[6px_6px_0_#000]"
+              className="mb-8 rounded-xl border border-green-400/40 bg-green-500/10 p-6"
             >
-              <div className="flex items-center gap-4 font-bold">
+              <div className="flex items-center gap-3 font-semibold text-green-300">
                 <FaCheck /> Message sent successfully!
               </div>
             </motion.div>
@@ -190,37 +187,56 @@ export default function Contact() {
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className={`${theme.surface} border-4 border-black p-8 shadow-[8px_8px_0_#000] space-y-6`}
+            className="glass rounded-2xl p-8 space-y-6"
           >
-            {["name", "email", "subject"].map((field) => (
-              <motion.input
-                key={field}
-                whileFocus={{ scale: 1.02 }}
-                type="text"
-                name={field}
-                placeholder={field.toUpperCase()}
-                value={(formData as any)[field]}
-                onChange={handleChange}
-                className={inputBase}
-              />
+            {(["name", "email", "subject"] as const).map((field) => (
+              <div key={field}>
+                <motion.input
+                  whileFocus={{ scale: 1.01 }}
+                  type="text"
+                  name={field}
+                  placeholder={field.toUpperCase()}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  aria-invalid={!!errors[field]}
+                  className={`${inputBase} ${
+                    errors[field] ? "border-red-500/70" : ""
+                  }`}
+                />
+                {errors[field] && (
+                  <p className="mt-2 text-sm font-medium text-red-400">
+                    {errors[field]}
+                  </p>
+                )}
+              </div>
             ))}
 
-            <motion.textarea
-              whileFocus={{ scale: 1.02 }}
-              rows={5}
-              name="message"
-              placeholder="Your message"
-              value={formData.message}
-              onChange={handleChange}
-              className={inputBase}
-            />
+            <div>
+              <motion.textarea
+                whileFocus={{ scale: 1.01 }}
+                rows={5}
+                name="message"
+                placeholder="Your message"
+                value={formData.message}
+                onChange={handleChange}
+                aria-invalid={!!errors.message}
+                className={`${inputBase} ${
+                  errors.message ? "border-red-500/70" : ""
+                }`}
+              />
+              {errors.message && (
+                <p className="mt-2 text-sm font-medium text-red-400">
+                  {errors.message}
+                </p>
+              )}
+            </div>
 
             <motion.button
               type="submit"
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
               disabled={formStatus.isSubmitting}
-              className={`${theme.primary} border-2 border-black px-6 py-3 font-black shadow-[4px_4px_0_#000] flex items-center justify-center gap-2`}
+              className={`${theme.accent} w-full rounded-lg px-6 py-3.5 font-semibold flex items-center justify-center gap-2 shadow-[0_0_40px_-10px_rgba(99,102,241,0.8)]`}
             >
               {formStatus.isSubmitting ? (
                 <>
@@ -234,6 +250,12 @@ export default function Contact() {
                 </>
               )}
             </motion.button>
+
+            {formStatus.isError && (
+              <p className="text-sm font-medium text-red-400 text-center">
+                {formStatus.errorMessage}
+              </p>
+            )}
           </motion.form>
 
           {/* INFO */}
@@ -263,18 +285,20 @@ export default function Contact() {
               <motion.div
                 key={item.title}
                 whileHover={{ x: 6 }}
-                className={`${theme.surface} border-4 border-black p-5 shadow-[6px_6px_0_#000] flex gap-4`}
+                className="glass glass-hover rounded-xl p-5 flex gap-4"
               >
-                <div className="text-xl">{item.icon}</div>
+                <div className={`${theme.accentSoft} rounded-lg w-10 h-10 flex items-center justify-center text-lg`}>
+                  {item.icon}
+                </div>
                 <div>
-                  <h4 className="font-black">{item.title}</h4>
-                  <p className="text-neutral-600">{item.value}</p>
+                  <h4 className="font-semibold text-zinc-100">{item.title}</h4>
+                  <p className="text-zinc-400 text-sm">{item.value}</p>
                 </div>
               </motion.div>
             ))}
 
             {/* SOCIAL */}
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {socialLinks.map((s) => {
                 const Icon = s.icon;
                 return (
@@ -282,11 +306,13 @@ export default function Contact() {
                     key={s.name}
                     href={s.url}
                     target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.name}
                     whileHover={{ y: -4, scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="p-3 border-2 border-black shadow-[3px_3px_0_#000]"
+                    className="glass glass-hover rounded-lg p-3 text-zinc-300"
                   >
-                    <Icon />
+                    <Icon size={18} />
                   </motion.a>
                 );
               })}

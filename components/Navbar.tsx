@@ -14,14 +14,13 @@ import {
   FaBriefcase,
   FaEnvelope,
 } from "react-icons/fa";
-import { themeColor } from "@/lib/colors";
-
-const theme = themeColor.pastel;
+import { useLenis } from "./LenisProvider";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>("home");
+  const lenis = useLenis();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,17 +51,17 @@ const Navbar: React.FC = () => {
   const getNavIcon = (name: string) => {
     switch (name.toLowerCase()) {
       case "home":
-        return <FaHome size={18} />;
+        return <FaHome size={16} />;
       case "about":
-        return <FaUser size={18} />;
+        return <FaUser size={16} />;
       case "skills":
-        return <FaCode size={18} />;
+        return <FaCode size={16} />;
       case "projects":
-        return <FaFolderOpen size={18} />;
+        return <FaFolderOpen size={16} />;
       case "experience":
-        return <FaBriefcase size={18} />;
+        return <FaBriefcase size={16} />;
       case "contact":
-        return <FaEnvelope size={18} />;
+        return <FaEnvelope size={16} />;
       default:
         return null;
     }
@@ -72,13 +71,17 @@ const Navbar: React.FC = () => {
     const element = document.getElementById(sectionId);
     if (!element) return;
 
-    const offset = 96; // navbar height safe
-    const y = element.getBoundingClientRect().top + window.pageYOffset - offset;
+    if (lenis) {
+      lenis.scrollTo(element, { offset: -96 });
+    } else {
+      const offset = 96; // navbar height safe
+      const y = element.getBoundingClientRect().top + window.pageYOffset - offset;
 
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }
 
     setIsOpen(false);
   };
@@ -90,10 +93,10 @@ const Navbar: React.FC = () => {
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 120, damping: 18 }}
-        className={`fixed top-0 inset-x-0 z-[999] pointer-events-auto ${
+        className={`fixed top-0 inset-x-0 z-[999] ${
           scrolled
-            ? `${theme.bg} border-b-4 border-black shadow-[0_6px_0_#000]`
-            : theme.bg
+            ? "bg-[#09090b]/80 backdrop-blur-md border-b border-white/10"
+            : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,9 +105,9 @@ const Navbar: React.FC = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`text-2xl font-black ${theme.text}`}
+              className="text-xl font-bold tracking-tight text-zinc-100"
             >
-              IkyDevs
+              Iky<span className="text-indigo-400">Devs</span>
             </motion.div>
 
             {/* DESKTOP NAV */}
@@ -117,21 +120,21 @@ const Navbar: React.FC = () => {
                     onClick={() => scrollToSection(item.id)}
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-2 px-4 py-2 transition-all ${
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                       active
-                        ? `${theme.primary} border-2 border-black shadow-[3px_3px_0_#000]`
-                        : `${theme.text} hover:underline`
+                        ? "bg-indigo-500/15 text-indigo-300 border border-indigo-400/30"
+                        : "text-zinc-400 hover:text-zinc-100"
                     }`}
                   >
                     {getNavIcon(item.name)}
-                    <span className="font-medium">{item.name}</span>
+                    <span className="text-sm font-medium">{item.name}</span>
                   </motion.button>
                 );
               })}
             </div>
 
             {/* DESKTOP SOCIAL */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -140,11 +143,12 @@ const Navbar: React.FC = () => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={social.name}
                     whileHover={{ scale: 1.1, y: -3 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`${theme.bg} p-2 border-2 border-black shadow-[3px_3px_0_#000]`}
+                    className="glass glass-hover rounded-lg p-2 text-zinc-300"
                   >
-                    <Icon size={18} className={theme.text} />
+                    <Icon size={16} />
                   </motion.a>
                 );
               })}
@@ -155,12 +159,13 @@ const Navbar: React.FC = () => {
               onClick={() => setIsOpen((v) => !v)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className={`md:hidden p-2 ${theme.bg} border-2 border-black shadow-[3px_3px_0_#000]`}
+              aria-label="Toggle menu"
+              className="glass md:hidden rounded-lg p-2 text-zinc-200"
             >
               {isOpen ? (
-                <FaTimes className={theme.text} />
+                <FaTimes size={18} />
               ) : (
-                <FaBars className={theme.text} />
+                <FaBars size={18} />
               )}
             </motion.button>
           </div>
@@ -177,7 +182,7 @@ const Navbar: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 z-[998]"
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[998]"
             />
 
             {/* PANEL */}
@@ -186,11 +191,13 @@ const Navbar: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className={`fixed top-0 right-0 h-full w-80 ${theme.bg} border-l-4 border-black z-[999]`}
+              className="fixed top-0 right-0 h-full w-80 bg-[#0c0c10] border-l border-white/10 z-[999]"
             >
-              <div className="p-6 border-b-4 border-black">
-                <h3 className="font-black text-lg">{personalInfo.name}</h3>
-                <p className="text-sm opacity-70">{personalInfo.role}</p>
+              <div className="p-6 border-b border-white/10">
+                <h3 className="font-bold text-lg text-zinc-100">
+                  {personalInfo.name}
+                </h3>
+                <p className="text-sm text-zinc-400">{personalInfo.role}</p>
               </div>
 
               <div className="p-6 space-y-2">
@@ -202,10 +209,10 @@ const Navbar: React.FC = () => {
                       onClick={() => scrollToSection(item.id)}
                       whileHover={{ x: 6 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 ${
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                         active
-                          ? `${theme.primary} border-2 border-black shadow-[3px_3px_0_#000]`
-                          : `${theme.text} hover:underline`
+                          ? "bg-indigo-500/15 text-indigo-300 border border-indigo-400/30"
+                          : "text-zinc-400 hover:text-zinc-100"
                       }`}
                     >
                       {getNavIcon(item.name)}

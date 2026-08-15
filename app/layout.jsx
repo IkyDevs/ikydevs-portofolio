@@ -1,8 +1,10 @@
 // app/layout.js
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ScrollProgress from "@/components/ScrollProgress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LenisProvider from "@/components/LenisProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,14 +15,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={`${inter.className} bg-gray-900 text-white`}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+      <body className={`${inter.className} bg-[#09090b] text-zinc-100 antialiased`}>
+        <ScrollProgress />
+        <LenisProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </LenisProvider>
       </body>
     </html>
   );

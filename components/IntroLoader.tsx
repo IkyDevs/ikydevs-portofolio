@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { themeColor } from "@/lib/colors";
 
-const theme = themeColor.pastel;
+const theme = themeColor.dark;
 
 interface IntroLoaderProps {
   onFinish?: () => void;
@@ -25,7 +25,7 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
       if (current >= 100) {
         current = 100;
         clearInterval(interval);
-        setReady(true); // 👈 progress selesai, tunggu user
+        setReady(true);
       }
 
       setProgress(current);
@@ -51,7 +51,7 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
           className={`fixed inset-0 z-[9999] flex items-center justify-center ${theme.bg}`}
         >
           <div className="w-full max-w-md px-6 text-center">
-            {/* BRUTAL CARD */}
+            {/* CARD */}
             <motion.div
               initial={{ y: 40, scale: 0.9, opacity: 0 }}
               animate={{ y: 0, scale: 1, opacity: 1 }}
@@ -60,7 +60,7 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
                 stiffness: 160,
                 damping: 14,
               }}
-              className={`${theme.surface} border-4 border-black shadow-[10px_10px_0_#000] p-8 mb-10`}
+              className="glass rounded-2xl p-8 mb-10 shadow-[0_0_120px_-30px_rgba(99,102,241,0.6)]"
             >
               {/* TITLE */}
               <motion.h1
@@ -72,16 +72,18 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
                   repeatDelay: 2.5,
                   duration: 0.4,
                 }}
-                className="text-3xl font-black mb-2"
+                className="text-3xl font-bold tracking-tight mb-2 text-zinc-100"
               >
-                IkyDevs Present
+                Iky<span className="text-indigo-400">Devs</span> Present
               </motion.h1>
 
-              <p className="text-sm tracking-wide">Please wait</p>
+              <p className="text-sm tracking-widest text-zinc-500 uppercase">
+                Please wait
+              </p>
             </motion.div>
 
             {/* PROGRESS BAR */}
-            <div className="w-full h-4 border-4 border-black bg-white overflow-hidden shadow-[4px_4px_0_#000]">
+            <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
               <motion.div
                 animate={
                   progress === 100
@@ -104,7 +106,8 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
                         ease: "easeOut",
                       }
                 }
-                className={`${theme.primary} h-full origin-center`}
+                className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 origin-left"
+                style={{ boxShadow: "0 0 20px rgba(99,102,241,0.6)" }}
               />
             </div>
 
@@ -128,7 +131,7 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
                 duration: 0.4,
                 ease: "easeOut",
               }}
-              className="mt-4 font-black text-lg"
+              className="mt-4 font-bold text-lg text-indigo-300"
             >
               {progress}%
             </motion.div>
@@ -145,30 +148,22 @@ export default function IntroLoader({ onFinish }: IntroLoaderProps) {
                 >
                   <motion.button
                     onClick={handleStart}
-                    /* IDLE ANIMATION (kalau gak di-hover) */
                     animate={{
-                      y: [0, -6, 0],
-                      rotate: [0, -1, 1, -1, 0],
+                      y: [0, -4, 0],
                     }}
                     transition={{
                       repeat: Infinity,
-                      repeatDelay: 2.5, // jeda sebelum gerak lagi
+                      repeatDelay: 2.5,
                       duration: 0.6,
                       ease: "easeInOut",
                     }}
-                    /* HOVER */
                     whileHover={{
-                      y: -6,
-                      scale: 1.05,
-                      rotate: 0,
-                      boxShadow: "6px 6px 0 #000",
+                      y: -4,
+                      scale: 1.03,
+                      boxShadow: "0 0 60px -10px rgba(99,102,241,0.9)",
                     }}
-                    /* CLICK */
-                    whileTap={{
-                      scale: 0.95,
-                      boxShadow: "2px 2px 0 #000",
-                    }}
-                    className={`${theme.primary} border-4 border-black px-10 py-3 font-black text-lg shadow-[4px_4px_0_#000]`}
+                    whileTap={{ scale: 0.96 }}
+                    className={`${theme.accent} rounded-xl px-10 py-3.5 font-bold text-lg shadow-[0_0_40px_-10px_rgba(99,102,241,0.8)]`}
                   >
                     MULAI
                   </motion.button>

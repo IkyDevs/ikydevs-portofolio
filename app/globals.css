@@ -1,29 +1,97 @@
 @import "tailwindcss";
 
-
-
 html, body {
-  background: #ffffff;
-  color: #000;
+  background: #09090b;
+  color: #f4f4f5;
   font-family: ui-sans-serif, system-ui;
 }
 
-/* ===== UI SIGNATURE ===== */
-.brutal-card {
-  @apply bg-white border-4 border-black rounded-xl;
-  box-shadow: 8px 8px 0 #000;
+/* ===== UTILITIES ===== */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.brutal-button {
-  @apply border-2 border-black px-6 py-3 font-bold uppercase transition-all;
-  box-shadow: 4px 4px 0 #000;
+.glass-hover {
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.brutal-button:hover {
-  transform: translate(4px, 4px);
-  box-shadow: none;
+.glass-hover:hover {
+  border-color: rgba(129, 140, 248, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 80px -20px rgba(99, 102, 241, 0.5);
 }
 
-.brutal-badge {
-  @apply px-3 py-1 border-2 border-black font-bold uppercase text-sm;
+.glow-text {
+  text-shadow: 0 0 30px rgba(129, 140, 248, 0.5);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ===== ACCESSIBILITY ===== */
+:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #6366f1;
+  color: #fff;
+}
+
+/* ===== DARK SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border: 3px solid #09090b;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+/* ===== MARQUEE ===== */
+.marquee-track {
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

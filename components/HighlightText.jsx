@@ -41,10 +41,10 @@ export default function HighlightText({
 
   return (
     <span className="relative">
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 font-bold">
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400 glow-text font-semibold">
         {currentText}
       </span>
-      <span className="inline-block w-[2px] h-6 ml-1 bg-cyan-400 animate-pulse align-middle"></span>
+      <span className="inline-block w-[2px] h-6 ml-1 bg-indigo-400 animate-pulse align-middle"></span>
     </span>
   );
 }
