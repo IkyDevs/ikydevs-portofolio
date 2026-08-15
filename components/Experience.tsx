@@ -63,6 +63,14 @@ export default function Experience() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400"
+          >
+            04 / Experience
+          </motion.p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 text-zinc-100">
             Work{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">

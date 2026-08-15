@@ -8,26 +8,17 @@ import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Marquee from "@/components/Marquee";
 import Contact from "@/components/Contact";
-import { useState } from "react";
-import IntroLoader from "@/components/IntroLoader";
 
 export default function Page() {
-
-  const [loaded, setLoaded] = useState(false);
   return (
-    <>
-      {!loaded && <IntroLoader onFinish={() => setLoaded(true)} />}
-      {loaded && (
-        <BackgroundWrapper>
-          <Hero />
-          <About />
-          <Skills />
-          <Projects />
-          <Experience />
-          <Marquee />
-          <Contact />
-        </BackgroundWrapper>
-      )}
-    </>
+    <BackgroundWrapper>
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Experience />
+      <Marquee />
+      <Contact />
+    </BackgroundWrapper>
   );
 }

@@ -159,6 +159,14 @@ export default function Projects() {
         >
           {/* Header */}
           <div className="text-center mb-16">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400"
+            >
+              03 / Projects
+            </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

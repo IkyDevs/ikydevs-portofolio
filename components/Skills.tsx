@@ -53,6 +53,14 @@ export default function Skills() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 text-zinc-100">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400"
+          >
+            02 / Skills
+          </motion.p>
             Technical{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
               Expertise

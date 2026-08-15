@@ -1,7 +1,7 @@
 // components/Hero.tsx
 "use client";
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import {
   personalInfo,
@@ -25,6 +25,17 @@ export default function Hero() {
   const reduced = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
 
+  const mouseX = useMotionValue(-600);
+  const mouseY = useMotionValue(-600);
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(99,102,241,0.14), transparent 70%)`;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  };
+
+  // 3D scroll: card rotateX + y parallax, selesai dalam 1 viewport
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -46,12 +57,20 @@ export default function Hero() {
     <section
       id="home"
       ref={heroRef}
+      onMouseMove={handleMouseMove}
       className={`min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden ${theme.bg}`}
     >
       {/* radial glow top */}
       <motion.div
         style={{ opacity: reduced ? 1 : glowOpacity }}
         className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_0%,rgba(99,102,241,0.15),transparent)]"
+      />
+
+      {/* cursor spotlight */}
+      <motion.div
+        aria-hidden
+        style={reduced ? undefined : { background: spotlight }}
+        className="pointer-events-none absolute inset-0"
       />
 
       <div className="max-w-7xl mx-auto w-full relative z-10 pt-32 pb-24">

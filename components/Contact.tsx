@@ -152,6 +152,14 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-400"
+          >
+            05 / Contact
+          </motion.p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 text-zinc-100">
             Let&apos;s{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
@@ -191,9 +199,16 @@ export default function Contact() {
           >
             {(["name", "email", "subject"] as const).map((field) => (
               <div key={field}>
+                <label
+                  htmlFor={field}
+                  className="block text-sm font-medium text-zinc-400 mb-1.5"
+                >
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
                 <motion.input
                   whileFocus={{ scale: 1.01 }}
                   type="text"
+                  id={field}
                   name={field}
                   placeholder={field.toUpperCase()}
                   value={formData[field]}
@@ -212,9 +227,16 @@ export default function Contact() {
             ))}
 
             <div>
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-zinc-400 mb-1.5"
+              >
+                Message
+              </label>
               <motion.textarea
                 whileFocus={{ scale: 1.01 }}
                 rows={5}
+                id="message"
                 name="message"
                 placeholder="Your message"
                 value={formData.message}
